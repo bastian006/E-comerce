@@ -1,0 +1,47 @@
+@model Wrapper
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers | Store</title>
+</head>
+<body>
+    <header>
+        <partial name="NavPartial"/>
+    </header>
+    <main>
+        <section>
+            <h3>Add a new customer</h3>
+            <form asp-action="CreateCustomer" asp-controller="Home">
+                <span asp-validation-for="Customer.Name"></span>
+                <label asp-for="Customer.Name"></label>
+                <input asp-for="Customer.Name">
+                <br>
+                <button>Add</button>
+            </form>
+        </section>
+        <section>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Customer Name</td>
+                        <td>Created Date</td>
+                        <td>Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Customer customer in Model.AllCustomers)
+                    {
+                        <tr>
+                            <td>@customer.Name</td>
+                            <td>@customer.CreatedAt.ToString("MMMM d, yyyy")</td>
+                            <td><form asp-action="DeleteCustomer" asp-controller="Home" asp-route-id="@customer.CustomerId" method="POST"><button>Remove</button></form></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

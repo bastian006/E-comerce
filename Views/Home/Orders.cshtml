@@ -1,0 +1,65 @@
+@model Wrapper
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders | Store</title>
+</head>
+<body>
+    <header>
+        <partial name="NavPartial"/>
+    </header>
+    <main>
+        <section>
+            <form asp-action="CreateOrder" asp-controller="Home" method="POST">
+                <label for="Customer">Customer:</label>
+                <select name="Customer" id="Customer">
+                    @foreach (Customer customer in Model.AllCustomers)
+                    {
+                        <option value="@customer.CustomerId">@customer.Name</option>
+                    }
+                </select>
+                <br>
+                <span asp-validation-for="Order.Quantity"></span>
+                <label asp-for="Order.Quantity"></label>
+                <input asp-for="Order.Quantity">
+                <br>
+                <label for="Product">Product</label>
+                <select name="Product" id="Product">
+                    @foreach (Product product in Model.AllProducts)
+                    {
+                        <option value="@product.ProductId">@product.Name</option>
+                    }
+                </select>
+                <br>
+                <button>Order</button>
+            </form>
+        </section>
+        <section>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Order order in Model.AllOrders)
+                    {
+                        TimeSpan time = DateTime.Now - order.CreatedAt;
+                        <tr>
+                            <td>@order.Customer.Name</td>
+                            <td>@order.Product.Name</td>
+                            <td>@order.Quantity</td>
+                            <td>@time.ToString("%d") days, @time.ToString("%h") hours, @time.ToString("%m") minutes, and @time.ToString("%s") seconds ago.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

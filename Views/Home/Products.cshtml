@@ -1,0 +1,47 @@
+@model Wrapper
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | Store</title>
+    <link rel="stylesheet" href="~/css/style.css">
+</head>
+<body>
+    <header>
+        <partial name="NavPartial"/>
+    </header>
+    <main>
+        <div class="form">
+            <h3>Add a new product</h3>
+            <form asp-action="CreateProduct" asp-controller="Home" method="POST">
+                <span asp-validation-for="Product.Name"></span>
+                <label asp-for="Product.Name"></label>
+                <input asp-for="Product.Name">
+                <br>
+                <span asp-validation-for="Product.Image"></span>
+                <label asp-for="Product.Image"></label>
+                <input asp-for="Product.Image">
+                <br>
+                <span asp-validation-for="Product.Description"></span>
+                <label asp-for="Product.Description"></label>
+                <input asp-for="Product.Description">
+                <br>
+                <span asp-validation-for="Product.Quantity"></span>
+                <label asp-for="Product.Quantity"></label>
+                <input asp-for="Product.Quantity">
+                <br>
+                <button>Create</button>
+            </form>
+        </div>
+        <section class="products">
+            @foreach (Product product in Model.AllProducts)
+            {
+                <img src="@product.Image" alt="@product.Name">
+                <h4>@product.Name</h4>
+                <h5>(@product.Quantity left)</h5>
+            }
+        </section>
+    </main>
+</body>
+</html>

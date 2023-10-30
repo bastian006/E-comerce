@@ -1,0 +1,43 @@
+@model Wrapper
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard of my SPA | Store</title>
+    <link rel="stylesheet" href="~/css/style.css">
+</head>
+<body>
+    <header>
+        <partial name="NavPartial"/>
+    </header>
+    <main>
+        <section>
+        @foreach (Product product in Model.AllProducts)
+        {
+            <div class="product">
+                <img src="@product.Image" alt="@product.Name">
+                <h4>@product.Name</h4>
+                <h5>(@product.Quantity left)</h5>
+            </div>
+        }
+        </section>
+        <section>
+            <h2>Recent Orders</h2>
+            @foreach (Order order in Model.AllOrders)
+            {
+                TimeSpan time = DateTime.Now - order.CreatedAt;
+                <p>@order.Customer.Name purchased @order.Quantity @order.Product.Name (@time.ToString("%d") days, @time.ToString("%h") hours, @time.ToString("%m") minutes, and @time.ToString("%s") seconds ago.)</p>
+            }
+        </section>
+        <section>
+            <h2>New Customers</h2>
+            @foreach (Customer customer in Model.AllCustomers)
+            {
+                TimeSpan time = DateTime.Now - customer.CreatedAt;
+                <p>@customer.Name joined the store. (@time.ToString("%d") days, @time.ToString("%h") hours, @time.ToString("%m") minutes, and @time.ToString("%s") seconds ago.)</p>
+            }
+        </section>
+    </main>
+</body>
+</html>
